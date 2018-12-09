@@ -1,6 +1,7 @@
 var activeNavBarElem = "nav_home"
 var aboutText ="Welcome to Steam Linker, a site that lets you compare games between Steam users by their Steam or Slack accounts."
-
+var contactText ="Contact aalkire@csumb.edu regarding any questions or bug submissions.";
+var managementLoaded = false;
 
 $(function() {
   $('.dropdown-toggle').dropdown();
@@ -9,6 +10,19 @@ $(function() {
   });
 });
 
+
+function createUser(){
+    var email = document.getElementById("emailInput").value;
+    var password = document.getElementById("passwordInput").value;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert("added"+this.responseText);
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=addUser&user='+email+'&pw='+password,true);
+    xmlhttp.send();
+}
 
 function signIn(){
     var emailAddr = document.getElementById("emailInput").value;
@@ -22,7 +36,6 @@ function updateNavBar(elemStr){
     oldElem.classList.remove("active");
     element.classList.add("active");
     activeNavBarElem = elemStr;
-    
 }
 
 class NavBarElem {
@@ -42,30 +55,47 @@ class NavBarElem {
 
 function clearMain(){
     document.getElementById("main_text").innerHTML="";
+    document.getElementById("accountManagement").style.display= "none";
 }
 class NavBar {
     constructor(){
-        
         /* Configure navbar here */
         this.navElems = {
             home : new NavBarElem('Home', 'nav_home'),
             about : new NavBarElem('About', 'nav_about'),
-            contact : new NavBarElem('Contact', 'nav_contact')
+            contact : new NavBarElem('Contact', 'nav_contact'),
+            account : new NavBarElem('Account', 'nav_account')
+            
         };
         this.navElems['home'].updatePage = function(){
             clearMain();
         };
         this.navElems['about'].updatePage = function(){
-            var mainText = document.getElementById("main_text");
-            mainText.innerHTML=aboutText;
+            clearMain();
+            var main_text = document.getElementById("main_text");
+            main_text.innerHTML=aboutText;
         };
         this.navElems['contact'].updatePage = function(){
-            clearMain();            
+            clearMain();           
+            var main_text = document.getElementById("main_text");
+            main_text.innerHTML=contactText;
+            
+        };
+            
+        this.navElems['account'].updatePage = function(){
+            clearMain();
+            if(managementLoaded == true){
+               document.getElementById("accountManagement").style.display= "inherit";
+            } else {
+                document.getElementById("accountManagement").style.display= "inherit";
+                managementLoaded = true;    
+                $('#accountManagement').load('account.php');
+           }
         };
         /* Generate navbar */
         var nl = document.getElementById("nav_list");
         for(var key in this.navElems){
-            var e = this.navElems[key];
+              var e = this.navElems[key];
             var listElem = document.createElement('li');
             listElem.setAttribute('id', e.id);
             listElem.classList.add("nav_element");

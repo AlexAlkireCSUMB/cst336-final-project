@@ -42,22 +42,26 @@
 										  <button class="btn btn-primary btn-block" onclick="signIn()">Sign in</button>
 							</div>
 							<div class="bottom text-center">
-								New? <a href="#"><b>Register for an account</b></a>
+								New? <a href="#" onclick="createUser()"><b>Register for an account</b></a>
 							</div>
 					 </div>
 				</li>
 			</ul>
       
-      </div>
-    </nav>
-      <div class="container fill">
-        <div class="row main_row">
-          <div id="sidebar" class="col-md-3"></div>
-        <div id="main_div" class="col-md-8">
-          <p id="main_text">foo</p>
+    </div>
+  </nav>
+    
+    <div class="container fill">
+      <div class="row main_row">
+        <div id="sidebar" class="col-md-3"></div>
+      <div id="main_div" class="col-md-8">
+        <div id="accountManagement">
+          
         </div>
+        <p id="main_text"></p>
       </div>
-    </div> 
+    </div>
+  </div> 
     
     <script src="./js/ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

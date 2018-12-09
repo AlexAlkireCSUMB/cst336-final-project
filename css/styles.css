@@ -145,3 +145,16 @@ html, body {
 #login-dp .form-group {
     margin-bottom: 10px;
 }
+
+
+
+.accountManageModalText{
+    font-size:22px;
+    padding:16px;
+    margin-left: 22px;
+    margin-right:22px;
+}
+
+.modal_pw_size{
+  max-width: 360px;
+}
