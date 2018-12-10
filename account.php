@@ -1,11 +1,6 @@
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
-
-        <title>Manage Account</title>
         
-        <link href="./css/bootstrap.min.css" rel="stylesheet">
-        <link href="./css/styles.css" rel="stylesheet">
+
         
         <h2 style="margin-left:32px">Account Management</h5>
         <div class="container" style="margin-left:48px">

@@ -14,3 +14,21 @@ function getSlack(Slack_URL) {
     
     return Slack_Users;
 }
+
+function updateSlackEmail(){//Update Slack Email in the Steam Linker users DB.
+    
+}
+
+function getCurrentSlackUser(){
+    return JSON.parse('{"email":"testSlackEmail@gmail.com", "url":"steamlinkerspace", "name":"Test Name"}');
+    
+    //.email
+    //.url
+    //.displayName
+ }
+
+
+function getSlackUsersIKnow(usr){ // return slack emails of all users specified user shares in their workspace.
+    alert("a");
+    return ['slEmailA@gmail.com', 'slEmailB@gmail.com'];
+}
