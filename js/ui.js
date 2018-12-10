@@ -10,6 +10,88 @@ $(function() {
   });
 });
 
+
+function submitPWChange(){
+    var oldPW = document.getElementById("retypePass").value;
+    var newPW = document.getElementById("newPassword").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&pw='+newPW,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+   
+}
+function submitSlackEmailChange(){
+    var oldPW = document.getElementById("retypeSlackEmailPass").value;
+    var newEmail = document.getElementById("newSlackEmail").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               console.log(this.responseText);
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&slack='+newEmail,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+}
+function submitSteamIDChange(){
+    var oldPW = document.getElementById("retypeSteamIDPass").value;
+    var newID = document.getElementById("newSteamID").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&steam='+newID,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+}
+
 function showGames(games){
     clearMain();
     var gamelistText = "<h1>Shared Games:<h1><h4><p>";
@@ -87,7 +169,9 @@ function initSharedUsers(){
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
                 ourFriends = JSON.parse(this.responseText);
+                
                 for(var f in ourFriends){
                    displayUser(new slUser(ourFriends[f]));
                    initSelectors(ourFriends[f]);
@@ -194,9 +278,7 @@ class slUser {
        // this.imgName = imgName;
         this.elem = null;
         this.slackEmail = userObj.slack_email;
-        this.remove = function f(){
-            alert("Removing "+name+" from list.");
-        };
+        
     }
     
     generateRowElement(){

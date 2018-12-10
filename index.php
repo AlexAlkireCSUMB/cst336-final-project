@@ -103,10 +103,6 @@
     <?php if(isset($_SESSION['user'])){ ?>
             <script>
                 initSharedUsers();
-                var friends = getSlackUsersIKnow();
-                friends.forEach(function(friend){
-                    console.log(friend); 
-                });
             </script>
         <?php } ?>
 </html>

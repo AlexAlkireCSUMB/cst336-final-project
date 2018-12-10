@@ -2,7 +2,11 @@
         
 
         
-        <h2 style="margin-left:32px">Account Management</h5>
+        <h2 style="margin-left:32px">Account Management - 
+        <?php 
+            session_start();
+            echo($_SESSION['user']);
+            ?> </h5>
         <div class="container" style="margin-left:48px">
             
             <div>
@@ -34,13 +38,13 @@
                     </div>
                     <div id="pass_modal_div" class="modal-body accountManageModalText">
                         
-                        Retype old password:     <input id="retypePass"><br><br>
+                        Retype old password:     <input type="password" id="retypePass"><br><br>
                     
-                        Type new password:     <input id="newPassword">
+                        Type new password:     <input  type="password" id="newPassword">
 
                     </div>
                     <div class="modal-footer">
-                        <button id="submitPWChange" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                        <button id="submitPWChange" onclick="submitPWChange()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
                     </div>
                 </div>
             </div>
@@ -57,13 +61,13 @@
                     </div>
                     <div id="slack_modal_div" class="modal-body accountManageModalText">
                         
-                        Retype old Slack Email:     <input id="retypeSlackEmail"><br><br>
+                        Password:     <input  type="password" id="retypeSlackEmailPass"><br><br>
                     
                         Type new Slack Email:     <input id="newSlackEmail">
 
                     </div>
                     <div class="modal-footer">
-                        <button id="submitSlackEmailChange" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                        <button id="submitSlackEmailChange" onclick="submitSlackEmailChange()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
                     </div>
                 </div>
             </div>
@@ -80,13 +84,13 @@
                     </div>
                     <div id="steam_modal_div" class="modal-body accountManageModalText">
                         
-                        Retype old SteamID:     <input id="retypeSteamID"><br><br>
+                        Password:     <input  type="password" id="retypeSteamIDPass"><br><br>
                     
                         Type new SteamID:     <input id="newSteamID">
 
                     </div>
                     <div class="modal-footer">
-                        <button id="submitSteamIDChange" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                        <button id="submitSteamIDChange"  onclick="submitSteamIDChange()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
                     </div>
                 </div>
             </div>

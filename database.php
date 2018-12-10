@@ -86,6 +86,8 @@ function getSLUserBySlack($email){
 }
 
 function login($email, $pw){
+    
+    
     $dbConn = getDatabaseConnection();
     $sql = "SELECT `password` FROM `slusers` WHERE `email` = '".$email."'";
     $statement = $dbConn->prepare($sql); 
@@ -114,7 +116,12 @@ if($_GET['sql'] == "addUser"){
 
 
 if($_GET['sql'] == "verifyUser"){
-    login($_GET['email'], $_GET['pw']);
+    if((!isset($_GET['email'])) && isset($_SESSION['user'])){
+        $email = $_SESSION['user'];
+    } else {
+        $email = $_GET['email'];
+    }
+    login($email, $_GET['pw']);
 }
 
 if($_GET['sql'] == "getMyDB"){
@@ -144,6 +151,31 @@ if($_GET['sql']=="getMe"){
         $statement->execute();
         $records = $statement->fetchAll();
         echo(json_encode($records[0]));
+     }
+}
+
+if($_GET['sql'] == "updateMe"){
+    $dbConn = getDatabaseConnection();
+    if(isset($_SESSION['user'])){
+       $dbConn = getDatabaseConnection();
+        $sql = "UPDATE `slusers` SET ";
+        $setStr = "";
+        if(isset($_GET['pw'])){
+            $setStr .= '`password` = "'.$_GET['pw'].'", ';
+        }
+        if(isset($_GET['slack'])){
+            $setStr .= '`slack_email` = "'.$_GET['slack'].'", ';
+        }
+        if(isset($_GET['steam'])){
+            $setStr .= '`steam_id` = "'.$_GET['steam'].'", ';
+        }
+        $setStr = substr($setStr,0, -2);
+        $sql .= $setStr.' WHERE `email` = "'.$_SESSION['user'].'" LIMIT 1';
+        
+        echo($sql);
+        $statement = $dbConn->prepare($sql);
+        $statement->execute();
+        
      }
 }
 ?>

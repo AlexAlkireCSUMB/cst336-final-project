@@ -1,5 +1,4 @@
 function registerUser(){
-    alert("register User");
     var name = document.getElementById("nameReg").value;
     var email = document.getElementById("SLUserEmailReg").value;
     var password = document.getElementById("passwordReg").value;
@@ -32,8 +31,6 @@ function registerUser(){
 
 function createUser(name, email, password, slackUser, steamID){
     var steamDisplay = getSteamDisplayName(steamID);
-    alert(steamDisplay);
-    alert(slackUser.name);
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -43,7 +40,7 @@ function createUser(name, email, password, slackUser, steamID){
         };
     var url ='database.php?sql=addUser&email='+email+'&pw='+password+'&name='+name+'&slack='+slackUser.email+'&steam='+steamID+"&slackurl="+slackUser.url+"&slackname="+slackUser.name+"&steamname="+steamDisplay;
     url = url.replace(' ', '%20');
-    alert(url);
+  
     console.log(url);
     
     xmlhttp.open("POST", url,true);
