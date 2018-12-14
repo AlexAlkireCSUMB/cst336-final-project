@@ -2,19 +2,11 @@
 <?php
 session_start();
 function getDatabaseConnection() {
-    if(0){
         $host = "us-cdbr-iron-east-01.cleardb.net";
         $username = "b746efb120e209";
         $password = "e2852191"; // best practice: define this in a separte file
         $dbname = "heroku_cdec17ef47bd851"; 
-    } else {
-        $host = "localhost";
-        $username = "alex";
-        $password = "testpw"; // best practice: define this in a separte file
-        $dbname = "finalTest"; 
-   
-    }    
-    
+
     // Create connection
     $dbConn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $dbConn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
