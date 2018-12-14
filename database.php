@@ -24,6 +24,7 @@ function getDatabaseConnection() {
     
 }
 function addUser($name, $email, $pw, $slackEmail, $steamID, $slackURL, $slackName, $steamName) {
+    console.log($steamName);
     $dbConn = getDatabaseConnection();
     $sql = "INSERT INTO `slusers` 
         (

@@ -29,19 +29,21 @@ function registerUser(){
 
 
 function createUser(name, email, password, slackUser, steamID){
-    var steamDisplay = getSteamDisplayName(steamID);
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                alert("added"+this.responseText);
-                window.location.href = "index.php";
-            }
-        };
-    var url ='database.php?sql=addUser&email='+email+'&pw='+password+'&name='+name+'&slack='+slackUser.email+'&steam='+steamID+"&slackurl="+slackUser.url+"&slackname="+slackUser.name+"&steamname="+steamDisplay;
-    url = url.replace(' ', '%20');
-  
-    xmlhttp.open("POST", url,true);
-    xmlhttp.send();
+    getSteamDisplayName(steamID, function cb_createUser(steamDisplay) {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    window.location.href = "index.php";
+                }
+            };
+        var url ='database.php?sql=addUser&email='+email+'&pw='+password+'&name='+name+'&slack='+slackUser.email+'&steam='+steamID+"&slackurl="+slackUser.url+"&slackname="+slackUser.name+"&steamname="+steamDisplay;
+        alert(url);
+        url = url.replace(' ', '%20');
+      
+        xmlhttp.open("POST", url,true);
+        xmlhttp.send();
+    });
+        
 }
 
 function signIn(){

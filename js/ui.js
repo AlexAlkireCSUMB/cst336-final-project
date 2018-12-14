@@ -94,9 +94,7 @@ function submitSteamIDChange(){
 function showGames(games){
     clearMain();
     var gamelistText = "<h1>Shared Games:<h1><h4><p>";
-    for(g in games){
-        gamelistText += games[g]+'<br>';
-    }
+    gamelistText+=games;
     gamelistText+="</p></h4>"
     document.getElementById("main_text").innerHTML=gamelistText;
 
@@ -131,9 +129,8 @@ function compareUsers(){
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                var games = compareSteamGames(ourFriends[f].steam_id, JSON.parse(this.responseText).steam_id);
-                showGames(games);
-                
+                compareSteamGames(ourFriends[f].steam_id, JSON.parse(this.responseText).steam_id, showGames);
+
             }
         };
     xmlhttp.open("POST",'database.php?sql=getMe',true);

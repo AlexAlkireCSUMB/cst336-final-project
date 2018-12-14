@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php 
     session_start();    
-    
 ?>
 <html>
     <head>
@@ -74,7 +73,7 @@
                         </select>
                     </div>
                     <div class="compareBtnDiv">
-                        <button id="compareBtn" onclick="compareSteamGames()">Compare!</button>
+                        <button id="compareBtn" onclick="compareUsers()">Compare!</button>
                     </div>
                 </div>
             </div>
