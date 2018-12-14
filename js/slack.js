@@ -2,15 +2,27 @@
 //Argument is the Slack Channel URL
 //For authentication, tokens are used.
 
-function getSlack(Slack_URL) {
-    var Slack_Users = [];
-    for(var k = 0; k < Slack_Users.length; ++k) {
-        Slack_Users.push(k);    
-    }
+function getSlack(/*Slack_URL*/) {
+    var obj = '{"result":false, "count":8}';
+    var data = JSON.parse(obj);   
     
-    for(var n = 0; n < Slack_Users.length; ++n) {
-        console.log(Slack_Users[n]);
-    }
+    return data;
+}
+
+function signUserIn(/*Slack_URL???*/) {
+    var email = document.getElementById("emailInput").value;
+    var password = document.getElementById("passwordInput").value;
+    var xml = new XMLHttpRequest();
+    xml.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if(this.responseText.trim()=="Verified"){
+                window.location = "./index.php";
+            } else if(this.responseText.trim()=="Invalid"){
+                   alert("Error signing in.");
+            }
+        }
+    };
     
-    return Slack_Users;
+    xml.open("POST",'database.php?sql=verifyUser&email='+email+'&password='+password,true);
+    xml.send();
 }
