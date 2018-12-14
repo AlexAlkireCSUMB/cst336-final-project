@@ -1,7 +1,8 @@
 var activeNavBarElem = "nav_home"
 var aboutText ="Welcome to Steam Linker, a site that lets you compare games between Steam users by their Steam or Slack accounts."
-
-
+var contactText ="Contact aalkire@csumb.edu regarding any questions or bug submissions.";
+var managementLoaded = false;
+var ourFriends;
 $(function() {
   $('.dropdown-toggle').dropdown();
   $('.dropdown input, .dropdown label').click(function(e) {
@@ -10,11 +11,177 @@ $(function() {
 });
 
 
-function signIn(){
-    var emailAddr = document.getElementById("emailInput").value;
-    var pw = document.getElementById("passwordInput").value;
-    alert("Sign in attempt.\nEmail: "+emailAddr+"\nPassword: "+pw);
+function submitPWChange(){
+    var oldPW = document.getElementById("retypePass").value;
+    var newPW = document.getElementById("newPassword").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&pw='+newPW,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+   
 }
+function submitSlackEmailChange(){
+    var oldPW = document.getElementById("retypeSlackEmailPass").value;
+    var newEmail = document.getElementById("newSlackEmail").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&slack='+newEmail,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+}
+function submitSteamIDChange(){
+    var oldPW = document.getElementById("retypeSteamIDPass").value;
+    var newID = document.getElementById("newSteamID").value;
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(this.responseText.trim()=="Verified"){
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               alert("Info Updated");
+                            }
+                        };
+                    xmlhttp.open("POST",'database.php?sql=updateMe&steam='+newID,true);
+                    xmlhttp.send();
+                    
+                } else if(this.responseText.trim()=="Invalid"){
+                    alert("Wrong Password");
+                }
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=verifyUser&pw='+oldPW,true);
+    xmlhttp.send();
+    
+}
+
+function showGames(games){
+    clearMain();
+    var gamelistText = "<h1>Shared Games:<h1><h4><p>";
+    for(g in games){
+        gamelistText += games[g]+'<br>';
+    }
+    gamelistText+="</p></h4>"
+    document.getElementById("main_text").innerHTML=gamelistText;
+
+    
+}
+
+function compareUsers(){
+    var otherUserID;
+    if(document.getElementById("dispSlackSel").style.display=="none"){
+    //If Steam Selector is active.
+        var otherUserName = document.getElementById("SteamNamesSel").value;
+        
+        for(var f in ourFriends){
+            if(ourFriends[f].displayName == otherUserName){
+                otherUserID = ourFriends[f].steam_id;
+                break;
+            }
+        }
+    }
+    else {
+    //If Slack Selector is active.    
+        var otherUserEmail = document.getElementById("SlackEmailSel").value;
+        for(var f in ourFriends){
+            if(ourFriends[f].slack_email == otherUserEmail){
+                otherUserID = ourFriends[f].steam_id;
+                break;
+            }
+        }
+    }
+    
+    
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var games = compareSteamGames(ourFriends[f].steam_id, JSON.parse(this.responseText).steam_id);
+                showGames(games);
+                
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=getMe',true);
+    xmlhttp.send();
+}
+
+
+function setSlackSelector(){
+    document.getElementById("dispSlackSel").style.display="inherit";
+    document.getElementById("dispSteamSel").style.display="none";
+
+}
+function setSteamSelector(){
+    
+    document.getElementById("dispSlackSel").style.display="none";
+    document.getElementById("dispSteamSel").style.display="inherit";
+}
+
+function initSelectors(friend){
+    var slackSelector = document.getElementById("SlackEmailSel");
+    var opt = document.createElement("option");
+    opt.innerHTML= friend.slack_email;
+    slackSelector.appendChild(opt);
+    
+    var steamSelector = document.getElementById("SteamNamesSel");
+    var opt = document.createElement("option");
+    opt.innerHTML= friend.displayName;
+    steamSelector.appendChild(opt);
+    
+}
+
+function initSharedUsers(){
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                ourFriends = JSON.parse(this.responseText);
+                for(var f in ourFriends){
+                   displayUser(new slUser(ourFriends[f]));
+                   initSelectors(ourFriends[f]);
+                }
+                
+            }
+        };
+    xmlhttp.open("POST",'database.php?sql=getMyDB',true);
+    xmlhttp.send();
+
+}
+
 
 function updateNavBar(elemStr){
     var oldElem = document.getElementById(activeNavBarElem);
@@ -22,7 +189,6 @@ function updateNavBar(elemStr){
     oldElem.classList.remove("active");
     element.classList.add("active");
     activeNavBarElem = elemStr;
-    
 }
 
 class NavBarElem {
@@ -42,30 +208,47 @@ class NavBarElem {
 
 function clearMain(){
     document.getElementById("main_text").innerHTML="";
+    document.getElementById("accountManagement").style.display= "none";
 }
 class NavBar {
     constructor(){
-        
         /* Configure navbar here */
         this.navElems = {
             home : new NavBarElem('Home', 'nav_home'),
             about : new NavBarElem('About', 'nav_about'),
-            contact : new NavBarElem('Contact', 'nav_contact')
+            contact : new NavBarElem('Contact', 'nav_contact'),
+            account : new NavBarElem('Account', 'nav_account')
+            
         };
         this.navElems['home'].updatePage = function(){
             clearMain();
         };
         this.navElems['about'].updatePage = function(){
-            var mainText = document.getElementById("main_text");
-            mainText.innerHTML=aboutText;
+            clearMain();
+            var main_text = document.getElementById("main_text");
+            main_text.innerHTML=aboutText;
         };
         this.navElems['contact'].updatePage = function(){
-            clearMain();            
+            clearMain();           
+            var main_text = document.getElementById("main_text");
+            main_text.innerHTML=contactText;
+            
+        };
+            
+        this.navElems['account'].updatePage = function(){
+            clearMain();
+            if(managementLoaded == true){
+               document.getElementById("accountManagement").style.display= "inherit";
+            } else {
+                document.getElementById("accountManagement").style.display= "inherit";
+                managementLoaded = true;    
+                $('#accountManagement').load('account.php');
+           }
         };
         /* Generate navbar */
         var nl = document.getElementById("nav_list");
         for(var key in this.navElems){
-            var e = this.navElems[key];
+              var e = this.navElems[key];
             var listElem = document.createElement('li');
             listElem.setAttribute('id', e.id);
             listElem.classList.add("nav_element");
@@ -80,21 +263,20 @@ class NavBar {
 }
 var navBar = new NavBar();
 
-
 function displayUser(usr){
     var sb = document.getElementById('sidebar')
     sb.appendChild(usr.generateRowElement());
 }        
 
 class slUser {
-    constructor(name, id, imgName){
-        this.name = name;
-        this.id = id;
-        this.imgName = imgName;
+    constructor(userObj){
+        this.steamName = userObj.displayName;
+        this.name = userObj.name;
+        this.steamID = userObj.steam_id;
+       // this.imgName = imgName;
         this.elem = null;
-        this.remove = function f(){
-            alert("Removing "+name+" from list.");
-        };
+        this.slackEmail = userObj.slack_email;
+        
     }
     
     generateRowElement(){
@@ -110,13 +292,17 @@ class slUser {
         var slackImage = document.createElement('img');
         slackImage.classList.add("profile_image");
         slackImage.setAttribute('src', 'img/slack.png');
+        slackImage.setAttribute('alt', this.slackEmail);
+        slackImage.setAttribute('title', this.slackEmail);
         var stIconCol = document.createElement('div');
         stIconCol.classList.add("user_icon_col");
         stIconCol.classList.add("col-sm-1");
         var steamImage = document.createElement('img');
         steamImage.classList.add("profile_image");
         var steamImageLink = document.createElement('a');
-        steamImageLink.setAttribute('href', 'https://steamcommunity.com/id/'+this.id);
+        steamImageLink.setAttribute('href', 'https://steamcommunity.com/profiles/'+this.steamID);
+        steamImageLink.setAttribute('alt', this.steamName);
+        steamImageLink.setAttribute('title', this.steamName);
         steamImage.setAttribute('src', 'img/steam.png');
         steamImageLink.appendChild(steamImage);
         var userNameCol = document.createElement('div');
@@ -126,28 +312,14 @@ class slUser {
         userNameLink.classList.add("username_text");
         userNameLink.innerHTML = this.name;
         
-        var rmColumn = document.createElement('div');
-        rmColumn.classList.add("col-sm-1");
         //rmColumn.
         //var rmLink = document.createElement('a');
-        var rmImg = document.createElement('input');
-        rmImg.setAttribute('type','image');
-        rmImg.setAttribute('src', 'img/cross.png');
-        rmImg.classList.add("rm_img");
-        rmImg.onclick = this.remove;  
         userRow.appendChild(stIconCol);
         userRow.appendChild(slIconCol);
         userRow.appendChild(userNameCol);
         userNameCol.appendChild(userNameLink);
         slIconCol.appendChild(slackImage);
         stIconCol.appendChild(steamImageLink);
-        rmColumn.appendChild(rmImg);
-        userRow.appendChild(rmColumn);
         return userRow;
     }
 }
-
-var usrA = new slUser('alex', 'ryuuarashi', 'steam.png');
-var usrB = new slUser('foobar', 'ryuuarashi', 'steam.png');
-displayUser(usrA);
-displayUser(usrB);

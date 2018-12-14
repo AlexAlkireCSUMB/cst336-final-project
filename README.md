@@ -17,3 +17,4 @@ User can compare owned games with other steam users by id.
 Without logging in users can lookup matching games by tag and two user fields.
 
 Users can delete their account.
+

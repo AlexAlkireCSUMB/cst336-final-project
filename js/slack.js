@@ -26,3 +26,21 @@ function signUserIn(/*Slack_URL???*/) {
     xml.open("POST",'database.php?sql=verifyUser&email='+email+'&password='+password,true);
     xml.send();
 }
+
+function updateSlackEmail(){//Update Slack Email in the Steam Linker users DB.
+    
+}
+
+function getCurrentSlackUser(){
+    return JSON.parse('{"email":"testSlackEmail@gmail.com", "url":"steamlinkerspace", "name":"Test Name"}');
+    
+    //.email
+    //.url
+    //.displayName
+ }
+
+
+function getSlackUsersIKnow(usr){ // return slack emails of all users specified user shares in their workspace.
+    
+    return ['slEmailA@gmail.com', 'slEmailB@gmail.com'];
+}
