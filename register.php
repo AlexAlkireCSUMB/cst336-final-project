@@ -8,7 +8,7 @@
 
 
 <?php
-    $slack_URL = "https://slack.com/api/oauth.access?client_id=498027305905.498498527441&client_secret=01e84456cb39746556df2a3f7b427376&redirect_uri=https://cst336-aalkire-aalkire.c9users.io/cst336_finalproject/cst336-final-project/register.php";
+    $slack_URL = "https://slack.com/api/oauth.access?client_id=498027305905.498498527441&client_secret=01e84456cb39746556df2a3f7b427376&redirect_uri=https://cst336-final-project-steam.herokuapp.com/register.php";
     $slack_URL .= "&code=".$_GET['code'];
     $json = file_get_contents($slack_URL);
     $data = json_decode($json, true);
@@ -95,7 +95,7 @@
 							<label for="SLUserEmailReg" class="cols-sm-2 control-label">Slack Sign-in</label>
 							<div class="cols-sm-10">
 								<div style="margin-left:12px;margin-top:8px;" class="input-group">
-							      <a href="https://slack.com/oauth/authorize?scope=users.profile:read&client_id=498027305905.498498527441&redirect_uri=https://cst336-aalkire-aalkire.c9users.io/cst336_finalproject/cst336-final-project/register.php"><img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>
+							      <a href="https://slack.com/oauth/authorize?scope=users.profile:read&client_id=498027305905.498498527441&redirect_uri=https://cst336-final-project-steam.herokuapp.com//register.php"><img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>
 								</div>
 							</div>
 						</div>
