@@ -89,15 +89,17 @@
                 </div>
             </div>
         </div> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="./js/bootstrap.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
+        
         <script src="./js/slack.js"></script>
         <script src="./js/steam.js"></script>
         <script src="./js/ui.js"></script>
         <script src="./js/users.js"></script>
         
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="./js/bootstrap.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
-        <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
+        
         
     </body>
     <?php if(isset($_SESSION['user'])){ ?>

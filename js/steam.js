@@ -27,7 +27,6 @@ function getSteamDisplayName(id){
                 for(var personaname in data.response.players){
                     alert(appid);
                 }
-                console.log("::::"+data.response.players);
                 //var select = document.getElementById("name");
             },
             
@@ -39,12 +38,11 @@ function getSteamDisplayName(id){
 
 function compareSteamGames(usr1_id, usr2_id){
     var data;
-    usr1_id = "76561197972193884";
-    76561197972193890
-    usr2_id = "76561197972193884";
+    usr1_id = '76561197972193884';
+    usr2_id = '76561197972193884';
+    var sharedGamesString='a';
     var sharedGames1=[];
-    var sharedGames2=[];
-    
+
     $.ajax({
             type: "get",
             url: "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=39AC8A1725168AF0A98007703832C335&include_appinfo=1&steamid=" + usr1_id + "&format=json",
@@ -58,13 +56,17 @@ function compareSteamGames(usr1_id, usr2_id){
                 if (data.response == 0){
                     alert("Privacy settings prohibit games to be shown");
                 }
-                for(var game in data.response.games){
-                    sharedGames1.push([data.response.games[game].appid, data.response.games[game].name]);
+
+                var response=(data.response[0]);
+                
+                for(var game in response["games"]){
+                    alert(sharedGames1.length);
+                    sharedGames1.push(response.games["games"][game]["appid"]);
                 }
                 console.log(data);
-                console.log(data.response.games);
+                console.log(data.response);
                 console.log(sharedGames1);
-                showGames(games);
+                //showGames(games);
             },
             
             error: function(data, status){
@@ -85,16 +87,20 @@ function compareSteamGames(usr1_id, usr2_id){
                 if (data.response == 0){
                     alert("Privacy settings prohibit games to be shown");
                 }
-                for(var game in data.response.games){
-                    sharedGames2.push(data.response.games[game].appid);
+                var response = data.response[0];
+                
+                for(var game in response.games["games"]){
+                    console.log(response.games["games"][game]);
                     
-                    if(sharedGames2.includes(data.response.games[game].appid)){
-                        sharedGames2.push(data.response.games[game].appid);
+                    
+                    if(sharedGames1.includes(response.games["games"][game]["appid"])){
+                        sharedGamesString+=response.games["games"][game]["name"];
+                        alert(sharedGamesString);
                     }
                 }
-                console.log(data.response.games);
+                
                 //var select = document.getElementById("name");
-                showGames(games);
+                //showGames(games);
             },
             
             error: function(data, status){
