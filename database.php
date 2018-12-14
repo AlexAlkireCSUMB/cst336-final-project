@@ -85,6 +85,28 @@ function getSLUserBySlack($email){
         echo $records[0]['email'];
     }
 }
+function deleteAccount(){
+    $dbConn = getDatabaseConnection();
+    $sql = "SELECT `steam_id`, `slack_email` FROM `slusers` WHERE `email` = '".$_SESSION['user']."'";
+    $statement = $dbConn->prepare($sql); 
+    $statement->execute(); 
+    $records = $statement->fetchAll(); 
+    $steam_id = $records[0]['steam_id'];
+    $slack_email = $records[0]['slack_email'];
+    
+
+    $sql = "DELETE FROM `slusers` WHERE `email` = '".$_SESSION['user']."'";
+    $statement = $dbConn->prepare($sql); 
+    $statement->execute(); 
+    $sql = "DELETE FROM `steamUsers` WHERE `id` = '".$steam_id."'";
+    $statement = $dbConn->prepare($sql); 
+    $statement->execute(); 
+    $sql = "DELETE FROM `slackUsers` WHERE `email` = '".$slack_email."'";
+    $statement = $dbConn->prepare($sql); 
+    $statement->execute(); 
+    session_unset();
+    
+}
 
 function login($email, $pw){
     
@@ -102,9 +124,9 @@ function login($email, $pw){
     }
 }
 
-function getSharedSLUsers($workspace_url){
+function getSharedSLUsers($workspace_url, $selfEmail){
     $dbConn = getDatabaseConnection();
-    $sql = "SELECT slusers.id, slusers.steam_id, slusers.slack_email, slusers.name, steamUsers.displayName FROM slusers JOIN slackUsers ON slusers.slack_email = slackUsers.email JOIN steamUsers ON slusers.steam_id = steamUsers.id WHERE slackUsers.workspace_url = '".$workspace_url."'";
+    $sql = "SELECT slusers.id, slusers.steam_id, slusers.slack_email, slusers.name, steamUsers.displayName FROM slusers JOIN slackUsers ON slusers.slack_email = slackUsers.email JOIN steamUsers ON slusers.steam_id = steamUsers.id WHERE slackUsers.workspace_url = '".$workspace_url."' AND slusers.email != '".$selfEmail."'";
     $statement = $dbConn->prepare($sql);
     $statement->execute();
     $records = $statement->fetchAll();
@@ -115,6 +137,9 @@ if($_GET['sql'] == "addUser"){
     addUser($_GET['name'], $_GET['email'], $_GET['pw'], $_GET['slack'], $_GET['steam'], $_GET['slackurl'], $_GET['slackname'], $_GET['steamname']);
 }
 
+if($_GET['sql'] == "deleteAccount"){
+    deleteAccount();
+}
 
 if($_GET['sql'] == "verifyUser"){
     if((!isset($_GET['email'])) && isset($_SESSION['user'])){
@@ -139,7 +164,7 @@ if($_GET['sql'] == "getMyDB"){
         $statement->execute();
         $records = $statement->fetchAll();
         
-        getSharedSLUsers($records[0]['workspace_url']);
+        getSharedSLUsers($records[0]['workspace_url'], $email);
     }    
 }
 
