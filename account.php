@@ -24,6 +24,11 @@
                     Change Steam ID
                 </button>
             </div>
+            <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmDeleteAcctModal">
+                    Delete Account
+                </button>
+            </div>
         </div>
         
         <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModal" aria-hidden="true">
@@ -91,6 +96,31 @@
                     </div>
                     <div class="modal-footer">
                         <button id="submitSteamIDChange"  onclick="submitSteamIDChange()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmDeleteAcctModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteAcctModal" aria-hidden="true">
+            <div class="modal-dialog modal_pw_size" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="steamid_modal_text" class="modal-title" id="confirmDeleteAcctModalLabel">Delete Account
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="acct_delete_modal_div" class="modal-body accountManageModalText">
+                        
+                        Type Email:     <input id="emailConfirmDelete"><br><br>
+
+                        Password:     <input  type="password" id="pwConfirmDelete">
+                    
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submitDeleteAccount"  onclick="submitDeleteAccount()" type="button" class="btn btn-default" data-dismiss="modal">Delete Account</button>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,6 @@ function registerUser(){
     var slackUser = getCurrentSlackUser();
     var steamID = document.getElementById("steamIDReg").value;
     slackEmail = "none";
-    console.log(name+email+password+confirmPW+slackUser+steamID);
     if(name && email && password && password == confirmPW && slackUser && steamID){
         createUser(name, email, password, slackUser, steamID);
         localStorage.setItem('name-save', "");
@@ -41,8 +40,6 @@ function createUser(name, email, password, slackUser, steamID){
     var url ='database.php?sql=addUser&email='+email+'&pw='+password+'&name='+name+'&slack='+slackUser.email+'&steam='+steamID+"&slackurl="+slackUser.url+"&slackname="+slackUser.name+"&steamname="+steamDisplay;
     url = url.replace(' ', '%20');
   
-    console.log(url);
-    
     xmlhttp.open("POST", url,true);
     xmlhttp.send();
 }

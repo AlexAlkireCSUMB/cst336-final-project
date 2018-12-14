@@ -49,7 +49,6 @@ function submitSlackEmailChange(){
                     xmlhttp = new XMLHttpRequest();
                     xmlhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
-                               console.log(this.responseText);
                                alert("Info Updated");
                             }
                         };
@@ -96,7 +95,7 @@ function showGames(games){
     clearMain();
     var gamelistText = "<h1>Shared Games:<h1><h4><p>";
     for(g in games){
-        gamelistText += games[g]['name']+'<br>';
+        gamelistText += games[g]+'<br>';
     }
     gamelistText+="</p></h4>"
     document.getElementById("main_text").innerHTML=gamelistText;
@@ -127,6 +126,7 @@ function compareUsers(){
             }
         }
     }
+    
     
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -169,9 +169,7 @@ function initSharedUsers(){
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
                 ourFriends = JSON.parse(this.responseText);
-                
                 for(var f in ourFriends){
                    displayUser(new slUser(ourFriends[f]));
                    initSelectors(ourFriends[f]);

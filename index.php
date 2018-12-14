@@ -74,7 +74,7 @@
                         </select>
                     </div>
                     <div class="compareBtnDiv">
-                        <button id="compareBtn" onclick="compareUsers()">Compare!</button>
+                        <button id="compareBtn" onclick="compareSteamGames()">Compare!</button>
                     </div>
                 </div>
             </div>
