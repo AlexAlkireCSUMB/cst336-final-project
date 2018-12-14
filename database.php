@@ -4,9 +4,9 @@ session_start();
 function getDatabaseConnection() {
     if(0){
         $host = "us-cdbr-iron-east-01.cleardb.net";
-        $username = "ba2bdf41aaa779";
-        $password = "73c70cc6"; // best practice: define this in a separte file
-        $dbname = "heroku_8fe0c23bb3c4609"; 
+        $username = "b746efb120e209";
+        $password = "e2852191"; // best practice: define this in a separte file
+        $dbname = "heroku_cdec17ef47bd851"; 
     } else {
         $host = "localhost";
         $username = "alex";
